@@ -197,7 +197,7 @@
     <ons-page id="Tab2">
       <ons-list-header>SHOPPING CART</ons-list-header>
 
-      <div id="Photo"></div>
+      <div id="pic"></div>
       <div id="showprice"></div>
         <script id="pic_template" type="text/template"> 
                     <% 
@@ -228,7 +228,7 @@
     </ons-page>
   </template>
 
-
+<!-- teb3 -->
   <template id="tab3.html">
     <ons-page>
         <p style="text-align: center; margin-top: 10px;">
@@ -272,12 +272,12 @@
         <ons-card>
           <ons-carousel swipeable auto-scroll overscrollable id="carousel" style="height: 300px;">
             <% detail.forEach(function(data){  
-              var data = data.data().picc; %>
+              var data = data.data() %>
 
-              <% data.forEach(function(data){   %>
-                <ons-carousel-item id="carousel1DeP" style="background: url('<%= data %>') no-repeat center; background-size: contain;">  
+             
+                <ons-carousel-item id="carousel1DeP" style="background: url('<%= data.Photo %>') no-repeat center; background-size: contain;">  
                 </ons-carousel-item>
-                <% })%>                                        
+                                                   
                 <% })%>
               
          </ons-carousel>
@@ -475,7 +475,8 @@
   }
   function showdetail() {
     var id = localStorage.getItem('id');
-    db.collection("PRODUCTS").where("pid", "==", id).get()
+    console.log('xxxxxxxxxxxxxxxxxxxxx',id)
+    db.collection("PRODUCTS").where("pid", "==",id).get()
       .then(function (querySnapshot) {
         // doc.data() is never undefined for query doc snapshots
         console.log(querySnapshot.docs);
