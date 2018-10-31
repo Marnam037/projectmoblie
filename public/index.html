@@ -572,16 +572,11 @@ localStorage.setItem('quentinTarantino',add2cart);
 var retrievedData = localStorage.getItem("quentinTarantino");
 console.log(retrievedData);
 dataCart.push(retrievedData);
-
- ons.notification.toast("????????????????????", {
-    timeout: 2000
-  });
-  $("#Fillbadge").attr('badge', dataCart.length);
+alert(dataCart);
 }
 //????????? array ??????????????? firebase ?????????????????? template
-
 function getData2cart(){
-  $("#Fillbadge").attr('badge','');
+  
   var Delete=[]
   document.getElementById('pic').innerHTML=""
   console.log(dataCart);
@@ -599,7 +594,6 @@ var testnum = 0;
       var pic_template = $('#pic_template').html();
       var  html = ejs.render(pic_template, { cart: querySnapshot.docs,num:testnum });
       console.log(html);
-
      
       
      $('#pic').append(html);
