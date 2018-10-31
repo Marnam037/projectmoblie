@@ -7,6 +7,35 @@
   <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
   <script src="ejs.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-firestore.js"></script>
+  <script>
+
+
+
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyBkDTuc1BhgNmpjTSPMP4iMgHhbloupCSc",
+      authDomain: "shopee-702b4.firebaseapp.com",
+      databaseURL: "https://shopee-702b4.firebaseio.com",
+      projectId: "shopee-702b4",
+      storageBucket: "shopee-702b4.appspot.com",
+      messagingSenderId: "148769103869"
+    };
+    firebase.initializeApp(config);
+
+
+    // Initialize Cloud Firestore through Firebase
+    var db = firebase.firestore();
+
+    // Disable deprecated features
+    db.settings({
+      timestampsInSnapshots: true
+    });
+
+
+  </script>
   <style>
     .toolbaricon {
       padding-left: 5px;
@@ -37,6 +66,8 @@
       </ons-tab>
       <ons-tab page="tab2.html" label="Cart" icon="fa-shopping-cart" active-icon="fa-shopping-cart">
       </ons-tab>
+      <ons-tab page="tab3.html" label="Product" icon="fa-shopping-cart" active-icon="fa-shopping-cart">
+      </ons-tab>
     </ons-tabbar>
   </ons-page>
 
@@ -53,10 +84,10 @@
         <ons-carousel-item id="carousel3" style="background: url('images/3.jpg') no-repeat center; background-size: contain;">
         </ons-carousel-item>
       </ons-carousel>
-      
-        <div id="icons"></div>
 
-        <script id="icon_template" type="text/template">
+      <div id="icons"></div>
+
+      <script id="icon_template" type="text/template">
         <ons-row style="height:120px" vertical-align="center">  
         <% categories.forEach(function(category){%>  
         <ons-col style="background:#66ff99;" width="33%">
@@ -71,7 +102,7 @@
         </ons-row>
         </script>
 
-      
+
     </ons-page>
   </template>
 
@@ -127,6 +158,33 @@
       </p>
     </ons-page>
   </template>
+
+
+  <template id="tab3.html">
+    <ons-page>
+      <div id="products">
+        <script id="product_template" type="text/template"> 
+ <ons-row>
+        <% product.forEach(function(product){%>
+<ons-col width="25%">
+        <img class="" src="<%= product.photo %>" width="99%"height="55%">
+<%= product.name %>
+<%= product.type %><br>
+-<%= product.price %>
+</ons-col>
+
+   
+
+<%});%> 
+ </ons-row>
+ 
+
+</Script>
+      </div>
+
+    </ons-page>
+  </template>
+
 </body>
 <script>
   getHomeData();
@@ -141,20 +199,70 @@
       getCartData();
     }
   });
+
   function getHomeData() {
-    $.getJSON('home.json', function (data) {
-      console.log(data);
-      $('#appname').html(data.appname);
-      var style = "background: url('images/" + data.slides[0] + "') no-repeat center; background-size: contain;'";
-      $('#carousel1').attr('style', style)
-      var icon_template = $('#icon_template').html();
-      var html = ejs.render(icon_template, {categories : data.categories});
-      $('#icons').html(html);
+    var docRef = db.collection("/UI").doc("home");
+    docRef.get().then(function (doc) {
+      if (doc.exists) {
+        //Display data
+        console.log("Document data:", doc.data());
+        var data = doc.data();
+        $('#appname').html(data.appname);
+        var style = "background: url('images/" + data.slides[0] + "') no-repeat center; background-size: contain;'";
+        $('#carousel1').attr('style', style)
+        var icon_template = $('#icon_template').html();
+        var html = ejs.render(icon_template, { categories: data.categories });
+        $('#icons').html(html);
+      } else {
+        console.log("No such document!");
+      }
+    }).catch(function (error) {
+      console.log("Error getting document:", error);
     });
+    //$.getJSON('home.json', function (data) {
+    //console.log(data);
+    // $('#appname').html(data.appname);
+    // var style = "background: url('images/" + data.slides[0] + "') no-repeat center; background-size: contain;'";
+    //$('#carousel1').attr('style', style)
+    // var icon_template = $('#icon_template').html();
+    //var html = ejs.render(icon_template, { categories: data.categories });
+    //$('#icons').html(html);
+    //});
   }
   function getCartData() {
     $.getJSON('cart.json', function (data) {
       console.log(data);
+    });
+  }
+
+  function getAllproduct() {
+    var allProductRef = db.collection("PRODUCTS")
+    allProductRef.get().then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+    });
+});
+
+
+  function getproductData() {
+    var docRef = db.collection("UI").doc("product");
+    docRef.get().then(function (doc) {
+      if (doc.exists) {
+
+        console.log("Document data:", doc.data());
+
+        var data = doc.data();
+        var product_template = $('#product_template').html();
+        var html = ejs.render(product_template, { product: data.product });
+        $('#products').html(html);
+
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    }).catch(function (error) {
+      console.log("Error getting document:", error);
     });
   }
 </script>
