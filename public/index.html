@@ -55,13 +55,13 @@
       </ons-toolbar>
 
       <ons-tabbar swipeable position="auto" id="tabbar">
-        <ons-tab page="tab1.html" label="Home" icon="ion-home, material:md-home"  active>
+        <ons-tab page="tab1.html" label="Home" icon="ion-home, material:md-home" active>
         </ons-tab>
-        <ons-tab page="tab2.html" label="Cart" icon="md-shopping-cart"id="Fillbadge" badge="" active-icon="md-shopping-cart">
+        <ons-tab page="tab2.html" label="Cart" icon="md-shopping-cart" id="Fillbadge" badge="" active-icon="md-shopping-cart">
         </ons-tab>
         <ons-tab page="tab3.html" label="product" icon="md-shopping-cart" active-icon="md-shopping-cart">
         </ons-tab>
-       
+
       </ons-tabbar>
 
     </ons-page>
@@ -103,51 +103,61 @@
           </script>
 
 
-    
+
 
       <style type="text/css">
         .recomended_playlist {
           padding-left: 10px;
         }
+
         .recomended_playlist_title {
           font-size: 12px;
           font-weight: bold;
         }
+
         .thumbnail {
           width: 120px;
           height: 120px;
           display: table;
           background-color: rgba(0, 0, 0, 0.42);
         }
+
         .thumbnail ons-icon {
           font-size: 70px;
           color: rgba(190, 190, 190, 0.74);
           display: table-cell;
           vertical-align: middle !important;
         }
+
         .recomended_list {
           height: 150px;
         }
+
         .recomended {
           background: linear-gradient(rgb(208, 247, 211), #151715);
           padding-top: 44px;
         }
+
         .menu_list {
           background: transparent;
         }
+
         .menu_item {
           color: white;
           font-size: 12px;
         }
+
         .menu_item ons-icon {
           margin-right: 10px;
           color: white;
           font-size: 16px;
         }
+
         .category {
           margin: 20px 0px;
           padding: 0px 30px;
         }
+
         .category_wrapper {
           width: 90%;
           margin: auto;
@@ -155,35 +165,42 @@
           border: 5px solid;
           border-color: white;
         }
+
         .category_wrapper ons-icon {
           font-size: 55px;
           padding-top: 10px;
           line-height: 0.75em;
         }
+
         .category_wrapper1 {
           width: 90%;
           margin: auto;
           background-color: rgba(100, 100, 100, 0.747);
         }
+
         .category_wrapper1 ons-icon {
           font-size: 55px;
           padding-top: 10px;
           line-height: 0.75em;
         }
+
         .category_wrapper2 {
           width: 90%;
           margin: auto;
           background-color: rgba(65, 65, 65, 0.815);
         }
+
         .category_wrapper2 ons-icon {
           font-size: 55px;
           padding-top: 10px;
           line-height: 0.75em;
         }
+
         .category_thumbnail {
           display: inline-block;
           margin: 16px 0px;
         }
+
         .category_title {
           font-size: 12px;
           font-weight: bold;
@@ -192,14 +209,14 @@
       </style>
     </ons-page>
   </template>
-<!-- teb2 -->
+  <!-- teb2 -->
   <template id="tab2.html">
     <ons-page id="Tab2">
       <ons-list-header>SHOPPING CART</ons-list-header>
 
       <div id="pic"></div>
       <div id="showprice"></div>
-        <script id="pic_template" type="text/template"> 
+      <script id="pic_template" type="text/template"> 
                     <% 
                      cart.forEach(function(cart){
                      console.log(cart)
@@ -207,7 +224,7 @@
             <div>          
             <ons-list-item>
                 <div class="left">
-                    <img class="list-item__thumbnail" src="<%= cart.data().Photo[0] %>">
+                    <img class="list-item__thumbnail" src="<%= cart.data().Photo %>">
                 </div>
                 <div class="center">
                     <span class="list-item__title"><%= cart.itemname %></span>
@@ -221,19 +238,19 @@
             </ons-list-item><% });%> 
 
         </Script>
-    
+
 
       <ons-button modifier="large">PROCEED TO PAY</ons-button>
 
     </ons-page>
   </template>
 
-<!-- teb3 -->
+  <!-- teb3 -->
   <template id="tab3.html">
     <ons-page>
-        <p style="text-align: center; margin-top: 10px;">
-            <ons-search-input placeholder="Search" onchange="search(this.value)"></ons-search-input>
-          </p>
+      <p style="text-align: center; margin-top: 10px;">
+        <ons-search-input placeholder="Search" onchange="search(this.value)"></ons-search-input>
+      </p>
       <div id="product"></div>
       <script id="product_template" type="text/template"> 
  <ons-row>
@@ -314,79 +331,79 @@
 <script>
 
 
-   //gethomedata  
-   getHomeData();
-          document.addEventListener('prechange', function (event) {
-            if (event.index == 0) {
-              console.log('Home clicked');
-              // get data for home screen  
-              getHomeData();
-            } else if (event.index == 1) {
-              console.log('Cart clicked');
-              getData2cart()
-            } else if (event.index == 2) {
-      
-              console.log('All product clicked');
-              var name1 = localStorage.getItem('name');
-              console.log("test" + name1)
-              // get data for all product screen  
-              if (name1 == null) {
-                console.log(name1)
-                getproductData();
-              }
-              else {
-      
-                getproductData(name1);
-              }
-              localStorage.clear();
-            }
-          });
-      
-      
-          function getHomeData() {
-            $.getJSON('home.json', function (data) {
-              var docRef = db.collection("UI").doc("home");
-              docRef.get().then(function (doc) {
-                if (doc.exists) {
-                  //Display data
-                  console.log("Document data:", doc.data());
-                  var data = doc.data();
-                  console.log(data.slides[0])
-                  $('#appname').html(data.appname);
-                  //var style = "background: url('" + data.slides[0] + "') no-repeat center; background-size: contain;'"; 
-                  var style = "background: url('images/" + data.slides[0] + "') no-repeat center; background-size: contain;'";
-                  $('#carousel1').attr('style', style)
-                  var style = "background: url('images/" + data.slides[1] + "') no-repeat center; background-size: contain;'";
-                  $('#carousel2').attr('style', style)
-                  var style = "background: url('images/" + data.slides[2] + "') no-repeat center; background-size: contain;'";
-                  $('#carousel3').attr('style', style)
-                  var icon_template = $('#icon_template').html();
-                  var html = ejs.render(icon_template, { categories: data.categories });
-                  $('#icons').html(html);
-                } else {
-                  console.log("No such document!");
-                }
-              }).catch(function (error) {
-                console.log("Error getting document:", error);
-              });
-      
-      
-            })
-          }
-      
-      
-    // $.getJSON('home.json', function (data) {
-    //     console.log(data);
-    //    
-    //     var style = "background: url('" + data.slides[0] + "')no-repeat center;background-size: contain;";
-    //     $('#carousel1').attr('style', style);
-    //     $('#icon1').attr('icon', data.categories[0].icon);
-    //     $('#Category_1_name').html(data.categories[0].name);
-    //     var icon_template = $('#icon_template').html();
-    //     var html = ejs.render(icon_template, { categories: data.categories });
-    //     $('#icon').html(html);
-    // });
-  
+  //gethomedata  
+  getHomeData();
+  document.addEventListener('prechange', function (event) {
+    if (event.index == 0) {
+      console.log('Home clicked');
+      // get data for home screen  
+      getHomeData();
+    } else if (event.index == 1) {
+      console.log('Cart clicked');
+      getData2cart()
+    } else if (event.index == 2) {
+
+      console.log('All product clicked');
+      var name1 = localStorage.getItem('name');
+      console.log("test" + name1)
+      // get data for all product screen  
+      if (name1 == null) {
+        console.log(name1)
+        getproductData();
+      }
+      else {
+
+        getproductData(name1);
+      }
+      localStorage.clear();
+    }
+  });
+
+
+  function getHomeData() {
+    $.getJSON('home.json', function (data) {
+      var docRef = db.collection("UI").doc("home");
+      docRef.get().then(function (doc) {
+        if (doc.exists) {
+          //Display data
+          console.log("Document data:", doc.data());
+          var data = doc.data();
+          console.log(data.slides[0])
+          $('#appname').html(data.appname);
+          //var style = "background: url('" + data.slides[0] + "') no-repeat center; background-size: contain;'"; 
+          var style = "background: url('images/" + data.slides[0] + "') no-repeat center; background-size: contain;'";
+          $('#carousel1').attr('style', style)
+          var style = "background: url('images/" + data.slides[1] + "') no-repeat center; background-size: contain;'";
+          $('#carousel2').attr('style', style)
+          var style = "background: url('images/" + data.slides[2] + "') no-repeat center; background-size: contain;'";
+          $('#carousel3').attr('style', style)
+          var icon_template = $('#icon_template').html();
+          var html = ejs.render(icon_template, { categories: data.categories });
+          $('#icons').html(html);
+        } else {
+          console.log("No such document!");
+        }
+      }).catch(function (error) {
+        console.log("Error getting document:", error);
+      });
+
+
+    })
+  }
+
+
+  // $.getJSON('home.json', function (data) {
+  //     console.log(data);
+  //    
+  //     var style = "background: url('" + data.slides[0] + "')no-repeat center;background-size: contain;";
+  //     $('#carousel1').attr('style', style);
+  //     $('#icon1').attr('icon', data.categories[0].icon);
+  //     $('#Category_1_name').html(data.categories[0].name);
+  //     var icon_template = $('#icon_template').html();
+  //     var html = ejs.render(icon_template, { categories: data.categories });
+  //     $('#icon').html(html);
+  // });
+
   // function getCartData() {
   //   var docRef = db.collection("UI").doc("cart");
   //   docRef.get().then(function (doc) {
@@ -475,8 +492,8 @@
   }
   function showdetail() {
     var id = localStorage.getItem('id');
-    console.log('xxxxxxxxxxxxxxxxxxxxx',id)
-    db.collection("PRODUCTS").where("pid", "==",id).get()
+    console.log('xxxxxxxxxxxxxxxxxxxxx', id)
+    db.collection("PRODUCTS").where("pid", "==", id).get()
       .then(function (querySnapshot) {
         // doc.data() is never undefined for query doc snapshots
         console.log(querySnapshot.docs);
@@ -489,28 +506,28 @@
       });
     localStorage.clear();
   }
-  
+
   function search(search) {
-   
-   const filterItems = (needle, heystack) => {
-    let query = needle.toLowerCase();
-    return heystack.filter(item => item.data().title.toLowerCase().indexOf(needle) >= 0);
-  }
-  console.log("55+", filterItems(search, data));
-  var item=filterItems(search, data);
-  console.log("xxx",item)
-  localStorage.setItem('items', item);
-  
 
-  console.log('tong',item);
-  
-test(item);
+    const filterItems = (needle, heystack) => {
+      let query = needle.toLowerCase();
+      return heystack.filter(item => item.data().title.toLowerCase().indexOf(needle) >= 0);
+    }
+    console.log("55+", filterItems(search, data));
+    var item = filterItems(search, data);
+    console.log("xxx", item)
+    localStorage.setItem('items', item);
 
-document.getElementById('tabbar').setActiveTab(2);
+
+    console.log('tong', item);
+
+    test(item);
+
+    document.getElementById('tabbar').setActiveTab(2);
     // localStorage.setItem('title', item);
   }
   const data = []
-  
+
   function tatol() {
     console.log(search);
     db.collection("PRODUCTS").get()
@@ -519,102 +536,104 @@ document.getElementById('tabbar').setActiveTab(2);
           data.push(item)
           console.log(data)
         });
-        
+
       })
     // const fruits = data[1];
   }
 
 
-function test(title){
-console.log("888",title);
-// for(var i =0;i<tests.length;i++){
-    
- 
-    console.log('tset',title);
+  function test(title) {
+    console.log("888", title);
+    // for(var i =0;i<tests.length;i++){
 
-        // doc.data() is never undefined for query doc snapshots
-        if (title == 0) {var html = "<font color='red'>??????????????????????</font>"
-            db.collection("PRODUCTS").get()
-              .then(function (querySnapshot) {
-                // doc.data() is never undefined for query doc snapshots
-                var product_template = $('#product_template').html();
-                console.log(querySnapshot);
-                html += ejs.render(product_template, { product: querySnapshot.docs });
-                $('#product').html(html);
-              })
-              .catch(function (error) {
-                console.log("Error getting documents: ", error);
-              });}
-        else{
-        var product_template = $('#product_template').html();
-         var html = ejs.render(product_template, { product: title });
-        $('#product').html(html);
+
+    console.log('tset', title);
+
+    // doc.data() is never undefined for query doc snapshots
+    if (title == 0) {
+      var html = "<font color='red'>??????????????????????</font>"
+      db.collection("PRODUCTS").get()
+        .then(function (querySnapshot) {
+          // doc.data() is never undefined for query doc snapshots
+          var product_template = $('#product_template').html();
+          console.log(querySnapshot);
+          html += ejs.render(product_template, { product: querySnapshot.docs });
+          $('#product').html(html);
+        })
+        .catch(function (error) {
+          console.log("Error getting documents: ", error);
+        });
+    }
+    else {
+      var product_template = $('#product_template').html();
+      var html = ejs.render(product_template, { product: title });
+      $('#product').html(html);
+    }
+
+    // console.log(tests)
+    // db.collection("PRODUCTS").where("title", "==",tests).get()
+    //       .then(function (querySnapshot) {
+    //         // doc.data() is never undefined for query doc snapshots
+    //         console.log(querySnapshot.docs);
+    //         var test_template = $('#test_template').html();
+    //         var html = ejs.render(test_template, { test: querySnapshot.docs });
+    //         $('#test').html(html);
+    //       })
+    //       .catch(function (error) {
+    //         console.log("Error getting documents: ", error);
+    //       });
+    // }}
+  }
+  var dataCart = [];
+  function addtocart(add2cart) {
+    localStorage.clear('quentinTarantino');
+    localStorage.setItem('quentinTarantino', add2cart);
+    var retrievedData = localStorage.getItem("quentinTarantino");
+    console.log(retrievedData);
+    dataCart.push(retrievedData);
+    alert(dataCart);
+  }
+  //????????? array ??????????????? firebase ?????????????????? template
+  function getData2cart() {
+
+    var Delete = []
+    document.getElementById('pic').innerHTML = ""
+    console.log(dataCart);
+    var j = 0
+    dataCart.forEach(function (remove) {
+      Delete.push(j)
+      console.log(Delete)
+      j++
+    });
+    var testnum = 0;
+    dataCart.forEach(function (dataCart) {
+      var apr = db.collection("PRODUCTS").where("pid", "==", dataCart);
+      apr.get().then(function (querySnapshot) {
+        console.log(querySnapshot.docs)
+        var pic_template = $('#pic_template').html();
+        var html = ejs.render(pic_template, { cart: querySnapshot.docs, num: testnum });
+        console.log(html);
+
+
+        $('#pic').append(html);
+        testnum = testnum + 1;
+      })
+    })
+
   }
 
-// console.log(tests)
-// db.collection("PRODUCTS").where("title", "==",tests).get()
-//       .then(function (querySnapshot) {
-//         // doc.data() is never undefined for query doc snapshots
-//         console.log(querySnapshot.docs);
-//         var test_template = $('#test_template').html();
-//         var html = ejs.render(test_template, { test: querySnapshot.docs });
-//         $('#test').html(html);
-//       })
-//       .catch(function (error) {
-//         console.log("Error getting documents: ", error);
-//       });
-// }}
- }
- var dataCart = [];
-function addtocart(add2cart){
-  localStorage.clear('quentinTarantino');
-localStorage.setItem('quentinTarantino',add2cart);
-var retrievedData = localStorage.getItem("quentinTarantino");
-console.log(retrievedData);
-dataCart.push(retrievedData);
-alert(dataCart);
-}
-//????????? array ??????????????? firebase ?????????????????? template
-function getData2cart(){
-  
-  var Delete=[]
-  document.getElementById('pic').innerHTML=""
-  console.log(dataCart);
-  var j=0
-  dataCart.forEach(function(remove) {
-    Delete.push(j)
-    console.log(Delete)
-    j++
-  });
-var testnum = 0;
-  dataCart.forEach(function(dataCart){
-    var apr = db.collection("PRODUCTS").where("pid","==",dataCart);
-    apr.get().then(function (querySnapshot) {
-      console.log(querySnapshot.docs)
-      var pic_template = $('#pic_template').html();
-      var  html = ejs.render(pic_template, { cart: querySnapshot.docs,num:testnum });
-      console.log(html);
-     
-      
-     $('#pic').append(html);
-        testnum = testnum +1;
-    })  
-  })
- 
-}
+  function deleteb(i) {
+    console.log(i);
 
-function deleteb(i) {
-  console.log(i);
+    console.log(dataCart);
 
-  console.log(dataCart);
-  
-  var remove= dataCart.splice(i,1)
+    var remove = dataCart.splice(i, 1)
 
-  alert("??????????????");
-  getData2cart()
+    alert("??????????????");
+    getData2cart()
 
-}
-var priceitem = 0;
+  }
+  var priceitem = 0;
 
   function totalprice(price1) {
     var price1 = parseInt(price1, 10)
