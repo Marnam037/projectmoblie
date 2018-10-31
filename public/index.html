@@ -69,46 +69,41 @@
 
 
 
+  <!-- teb1 -->
   <template id="tab1.html">
-    <ons-page>
+    <ons-page id="Tab1">
       <p style="text-align: center; margin-top: 10px;">
-        <ons-search-input placeholder="Search" onchange="search(this.value)"></ons-search-input>
+        <ons-search-input placeholder="Search" onchange="ons.notification.alert('Searched for: ' + this.value)"></ons-search-input>
       </p>
-      <ons-carousel fullscreen swipeable auto-scroll overscrollable id="carousel" style="height: 300px;">
-        <ons-carousel-item id="carousel1" style="background: url(1.jpg)no-repeat center;background-size: contain;">
-
+      <ons-carousel swipeable auto-scroll overscrollable id="carousel" style="height: 300px;">
+        <ons-carousel-item id="carousel1" style="background: url('')">
         </ons-carousel-item>
-        <ons-carousel-item id="carousel2" style="background: url(2.jpg)no-repeat center;background-size: contain;">
-
+        <ons-carousel-item id="carousel2" style="background: url('')">
         </ons-carousel-item>
-        <ons-carousel-item id="carousel3" style="background: url(3.jpg)no-repeat center;background-size: contain;">
-
+        <ons-carousel-item id="carousel3" style="background: url('')">
         </ons-carousel-item>
       </ons-carousel>
-      <!--/////////////////////////////////////////////////////////////////////////////-->
-      <div>
+
+      <div id="icons"></div>
+
+      <script id="icon_template" type="text/template">
+          <ons-row style="height:120px" vertical-align="center">  
+          <% categories.forEach(function(category){%>  
+          <ons-col style="background:<%= category.color %>; border:solid 1px white;color: black;" width="33%"onclick="changeTab('<%= category.name %>')">
+      <p style="text-align: center; margin: 10px;" >
+              <ons-icon size="60px" icon="<%= category.icon %>"></ons-icon>
+            </p>
+            <p style="text-align: center; margin: 10px;" id="icon1_text">
+              
+              <%= category.name %>
+            </p>
+          </ons-col>
+          <%});%>
+          </ons-row>
+          </script>
 
 
-        <div id="icon"></div>
-        <script id="icon_template" type="text/template"> 
-                  <ons-row class="category" style="text-align:center">      
-                        <% categories.forEach(function(category){%>
-                    <ons-col modifier="nodivider" id="Category_1"  onclick="changeTab('<%= category.name %>')"width="33%"value="<%= category.name %>">
-                        <div class="category_wrapper">
-                            <figure class="category_thumbnail">
-                                <ons-icon id="icon1" icon="<%= category.icon %>"></ons-icon>
-                                <div class="category_title" id="Category_1_name"> <%= category.name %> </div>
-                            </figure>
-                        </div>
-                    </ons-col>
-
-                    <%});%></div>
-                    </Script>
-
-
-
-
-      </div>
+    
 
       <style type="text/css">
         .recomended_playlist {
@@ -247,7 +242,7 @@
           %>
 <ons-col width="33%" >
   <ons-card onclick="detail('<%- products.pid %>')">
-        <img class="" src="<%= products.picc[0] %>" width="99%"height="70px"><br>
+        <img class="" src="<%= products.Photo %>" width="99%"height="70px"><br>
 <%= products.Category %><br>
 <%= products.title %><br>
 ?<%= products.price %>
@@ -315,68 +310,71 @@
 
 
 </body>
+
 <script>
-  var prev = function () {
-    var carousel = document.getElementById('carousel');
-    carousel.prev();
-  };
-  var next = function () {
-    var carousel = document.getElementById('carousel');
-    carousel.next();
-  };
-  ons.ready(function () {
-    var carousel = document.addEventListener('postchange', function (event) {
-      console.log('Changed to ' + event.activeIndex)
-    });
-  });</script>
-<script>
-  getHomeData()
-  tatol();
-  document.addEventListener('prechange', function (event) {
-    if (event.index == 0) {
-      console.log('Home click');
-      getHomeData()
-    }
-    else if (event.index == 1) {
-      console.log('Cart click');
-      getData2cart()
-    }
-    else if (event.index == 2) {
-      console.log('Cart click');
-      var name = localStorage.getItem('name');
-      var items = localStorage.getItem('items');
-      if (name == null&&items==null) {
-        getproductData()
-      }
-      else if (name != null&&items==null){ getproductData(name) }
-      else if (name != null&&items==null){  }
-    }else if (event.index == 3) {
-      var title = localStorage.getItem('title');
-      console.log('Cart click');
-      // test(title)
-    }localStorage.clear();
-  });
-  function getHomeData() {
-    var docRef = db.collection("UI").doc("home");
-    docRef.get().then(function (doc) {
-      if (doc.exists) {
-        console.log("Document data:", doc.data());
-        var data = doc.data();
-        $('#appname').html(data.appname);
-        var style = "background: url('" + data.slides[0] + "')no-repeat center;background-size: contain;";
-        $('#carousel1').attr('style', style);
-        $('#icon1').attr('icon', data.categories[0].icon);
-        $('#Category_1_name').html(data.categories[0].name);
-        var icon_template = $('#icon_template').html();
-        var html = ejs.render(icon_template, { categories: data.categories });
-        $('#icon').html(html);
-      } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-      }
-    }).catch(function (error) {
-      console.log("Error getting document:", error);
-    });
+
+
+   //gethomedata  
+   getHomeData();
+          document.addEventListener('prechange', function (event) {
+            if (event.index == 0) {
+              console.log('Home clicked');
+              // get data for home screen  
+              getHomeData();
+            } else if (event.index == 1) {
+              console.log('Cart clicked');
+              getData2cart()
+            } else if (event.index == 2) {
+      
+              console.log('All product clicked');
+              var name1 = localStorage.getItem('name');
+              console.log("test" + name1)
+              // get data for all product screen  
+              if (name1 == null) {
+                console.log(name1)
+                getproductData();
+              }
+              else {
+      
+                getproductData(name1);
+              }
+              localStorage.clear();
+            }
+          });
+      
+      
+          function getHomeData() {
+            $.getJSON('home.json', function (data) {
+              var docRef = db.collection("UI").doc("home");
+              docRef.get().then(function (doc) {
+                if (doc.exists) {
+                  //Display data
+                  console.log("Document data:", doc.data());
+                  var data = doc.data();
+                  console.log(data.slides[0])
+                  $('#appname').html(data.appname);
+                  //var style = "background: url('" + data.slides[0] + "') no-repeat center; background-size: contain;'"; 
+                  var style = "background: url('images/" + data.slides[0] + "') no-repeat center; background-size: contain;'";
+                  $('#carousel1').attr('style', style)
+                  var style = "background: url('images/" + data.slides[1] + "') no-repeat center; background-size: contain;'";
+                  $('#carousel2').attr('style', style)
+                  var style = "background: url('images/" + data.slides[2] + "') no-repeat center; background-size: contain;'";
+                  $('#carousel3').attr('style', style)
+                  var icon_template = $('#icon_template').html();
+                  var html = ejs.render(icon_template, { categories: data.categories });
+                  $('#icons').html(html);
+                } else {
+                  console.log("No such document!");
+                }
+              }).catch(function (error) {
+                console.log("Error getting document:", error);
+              });
+      
+      
+            })
+          }
+      
+      
     // $.getJSON('home.json', function (data) {
     //     console.log(data);
     //    
@@ -388,7 +386,7 @@
     //     var html = ejs.render(icon_template, { categories: data.categories });
     //     $('#icon').html(html);
     // });
-  }
+  
   // function getCartData() {
   //   var docRef = db.collection("UI").doc("cart");
   //   docRef.get().then(function (doc) {
@@ -425,7 +423,7 @@
           console.log("Error getting documents: ", error);
         });
     } else {
-      db.collection("PRODUCTS").where("Category", "==", name).get()
+      db.collection("PRODUCTS").where("category", "==", name).get()
         .then(function (querySnapshot) {
           if (querySnapshot.docs.length == 0) {
             var html = "<font color='red'>??????????????????????</font>"
@@ -441,7 +439,7 @@
                 console.log("Error getting documents: ", error);
               });
           } else {
-            db.collection("PRODUCTS").where("Category", "==", name).get()
+            db.collection("PRODUCTS").where("category", "==", name).get()
               .then(function (querySnapshot) {
                 // doc.data() is never undefined for query doc snapshots
                 console.log(querySnapshot.docs);
