@@ -651,6 +651,33 @@
     $('#showprice').html("<p><b>&nbsp; Total Price is : </b>" + priceitem + " ?</p>");
 
   }
+  function search(search) {
+   
+   const filterItems = (needle, heystack) => {
+    let query = needle.toLowerCase();
+    return heystack.filter(item => item.data().title.toLowerCase().indexOf(needle) >= 0);
+  }
+  console.log("55+", filterItems(search, data));
+  var item=filterItems(search, data);
+  console.log("xxx",item)
+  localStorage.setItem('items', item);
+  
+  console.log('tong',item);
+test(item);
+document.getElementById('tabbar').setActiveTab(2);
+    // localStorage.setItem('title', item);
+  }
+  const data = []
+  function tatol() {
+    console.log(search);
+    db.collection("PRODUCTS").get()
+      .then(function (querySnapshot) {
+        querySnapshot.docs.forEach(function (item) {
+          data.push(item)
+          console.log(data)
+        });
+        
+      })
 </script>
 
 </html>
