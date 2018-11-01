@@ -224,7 +224,7 @@
                     <span class="list-item__subtitle" style="color: blue;"><%= cart.data().price %></span>
                 </div>
                 <div class="right">
- <ons-icon icon="md-delete" onclick="deleteb(<%=num%>); delprice('<%= cart.data().price %>')"></ons-icon></div>
+ <ons-icon icon="md-delete" onclick="deleteb(<%=num%>); deleteprice('<%= cart.data().price %>')"></ons-icon></div>
 </div>
             </ons-list-item><% });%> 
  </Script>
@@ -586,7 +586,7 @@
     })
   }
   //Delete Products
-  function deletebutton(i) {
+  function deleteb(i) {
     console.log(i);
 
     console.log(dataCart);
@@ -606,7 +606,7 @@
     priceitem = priceitem + price1;
     $('#showpriceproduct').html("<p><b>&nbsp; Total Price is : </b>" + priceitem + " ?</p>");
   }
-  function delprice(price2) {
+  function deleteprice(price2) {
     var price2 = parseInt(price2, 10)
     console.log(price2);
 
