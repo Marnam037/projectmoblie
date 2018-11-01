@@ -435,37 +435,33 @@
 
   function search(search) {
 
-    const filterItems = (needle, heystack) => {
-      let query = needle.toLowerCase();
-      return heystack.filter(item => item.data().title.toLowerCase().indexOf(needle) >= 0);
-    }
-    console.log("soksak", filterItems(search, data));
-    var item = filterItems(search, data);
-    console.log("pao", item)
-    localStorage.setItem('items', item);
+const filterItems = (needle, heystack) => {
+  let query = needle.toLowerCase();
+  return heystack.filter(item => item.data().title.toLowerCase().indexOf(needle) >= 0);
+}
+console.log("55+", filterItems(search, data));
+var item = filterItems(search, data);
+console.log("xxx", item)
+localStorage.setItem('items', item);
 
+console.log('tong', item);
+test(item);
+document.getElementById('tabbar').setActiveTab(2);
+// localStorage.setItem('title', item);
+}
+const data = []
+function tatol() {
+console.log(search);
+db.collection("PRODUCTS").get()
+  .then(function (querySnapshot) {
+    querySnapshot.docs.forEach(function (item) {
+      data.push(item)
+      console.log(data)
+    });
 
-    console.log('marnam', item);
-
-    test(item);
-
-    document.getElementById('tabbar').setActiveTab(2);
-    // localStorage.setItem('title', item);
-  }
-  const data = []
-
-  function total() {
-    console.log(search);
-    db.collection("PRODUCTS").get()
-      .then(function (querySnapshot) {
-        querySnapshot.docs.forEach(function (item) {
-          data.push(item)
-          console.log(data)
-        });
-
-      })
-    // const fruits = data[1];
-  }
+  })
+// const fruits = data[1];
+}
 
 
   function test(title) {
