@@ -65,6 +65,7 @@
 
     </ons-page>
   </ons-navigator>
+
   <template id="tab1.html">
     <ons-page id="Tab1">
       <p style="text-align: center; margin-top: 10px;">
@@ -96,6 +97,7 @@
           <%});%>
           </ons-row>
           </script>
+          
       <style type="text/css">
         .recomended_playlist {
           padding-left: 10px;
@@ -200,12 +202,13 @@
       </style>
     </ons-page>
   </template>
+
   <template id="tab2.html">
     <ons-page id="Tab2">
       <ons-list-header>SHOPPING CART</ons-list-header>
 
       <div id="photo"></div>
-      <div id="showprice"></div>
+      <div id="showpriceproduct"></div>
       <script id="photo_template" type="text/template"> 
                     <% 
                      cart.forEach(function(cart){
@@ -228,6 +231,7 @@
       <ons-button modifier="large">PROCEED TO PAY</ons-button>
     </ons-page>
   </template>
+
   <template id="tab3.html">
     <ons-page>
       <p style="text-align: center; margin-top: 10px;">
@@ -239,7 +243,7 @@
         <% product.forEach(function(product){
           var products = product.data();
           %>
-<ons-col width="33%" >
+<ons-col width="50%" >
   <ons-card onclick="detail('<%- products.pid %>')">
         <img class="" src="<%= products.Photo %>" width="99%"height="70px"><br>
 <%= products.Category %><br>
@@ -321,6 +325,7 @@
       localStorage.clear();
     }
   });
+
   function getHomeData() {
     $.getJSON('home.json', function (data) {
       var docRef = db.collection("UI").doc("home");
@@ -383,6 +388,7 @@
   //   //     console.log(data);
   //   // })
   // }
+
   function getproductData(name) {
     if (name == null) {
       db.collection("PRODUCTS").get()
@@ -433,6 +439,7 @@
         })
     }
   }
+
   function changeTab(name) {
     console.log(name)
     document.getElementById('tabbar').setActiveTab(2);
@@ -440,6 +447,7 @@
     // var name1 = localStorage.getItem('name');
     //  getproductData(name1)
   }
+
   function detail(pid) {
     localStorage.setItem('id', pid);
     myNavigator.pushPage('tab4.html')
@@ -447,6 +455,7 @@
     // var name1 = localStorage.getItem('name');
     //  getproductData(name1)
   }
+
   //Show Detail
   function showdetail() {
     var id = localStorage.getItem('id');
@@ -477,7 +486,7 @@
     localStorage.setItem('items', item);
 
 
-    console.log('tong', item);
+    console.log('marnam', item);
 
     test(item);
 
@@ -568,8 +577,8 @@
       var apr = db.collection("PRODUCTS").where("pid", "==", dataCart);
       apr.get().then(function (querySnapshot) {
         console.log(querySnapshot.docs)
-        var pic_template = $('#photo_template').html();
-        var html = ejs.render(pic_template, { cart: querySnapshot.docs, num: testnum });
+        var photo_template = $('#photo_template').html();
+        var html = ejs.render(photo_template, { cart: querySnapshot.docs, num: testnum });
         console.log(html);
         $('#photo').append(html);
         testnum = testnum + 1;
@@ -577,14 +586,14 @@
     })
   }
   //Delete Products
-  function deleteb(i) {
+  function deletebutton(i) {
     console.log(i);
 
     console.log(dataCart);
 
     var remove = dataCart.splice(i, 1)
 
-    alert("??????????????");
+    alert("Do you want to delete the item?");
     getData2cart()
 
   }
@@ -595,14 +604,14 @@
     console.log(price1);
 
     priceitem = priceitem + price1;
-    $('#showprice').html("<p><b>&nbsp; Total Price is : </b>" + priceitem + " ?</p>");
+    $('#showpriceproduct').html("<p><b>&nbsp; Total Price is : </b>" + priceitem + " ?</p>");
   }
   function delprice(price2) {
     var price2 = parseInt(price2, 10)
     console.log(price2);
 
     priceitem = priceitem - price2;
-    $('#showprice').html("<p><b>&nbsp; Total Price is : </b>" + priceitem + " ?</p>");
+    $('#showpriceproduct').html("<p><b>&nbsp; Total Price is : </b>" + priceitem + " ?</p>");
 
   }
 </script>
