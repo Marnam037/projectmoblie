@@ -336,7 +336,6 @@
           var data = doc.data();
           console.log(data.slides[0])
           $('#appname').html(data.appname);
-          //var style = "background: url('" + data.slides[0] + "') no-repeat center; background-size: contain;'"; 
           var style = "background: url('images/" + data.slides[0] + "') no-repeat center; background-size: contain;'";
           $('#carousel1').attr('style', style)
           var style = "background: url('images/" + data.slides[1] + "') no-repeat center; background-size: contain;'";
@@ -354,46 +353,12 @@
       });
     })
   }
-  // $.getJSON('home.json', function (data) {
-  //     console.log(data);
-  //    
-  //     var style = "background: url('" + data.slides[0] + "')no-repeat center;background-size: contain;";
-  //     $('#carousel1').attr('style', style);
-  //     $('#icon1').attr('icon', data.categories[0].icon);
-  //     $('#Category_1_name').html(data.categories[0].name);
-  //     var icon_template = $('#icon_template').html();
-  //     var html = ejs.render(icon_template, { categories: data.categories });
-  //     $('#icon').html(html);
-  // });
-
-  // function getCartData() {
-  //   var docRef = db.collection("UI").doc("cart");
-  //   docRef.get().then(function (doc) {
-  //     if (doc.exists) {
-  //       console.log("Document data:", doc.data());
-  //       var data = doc.data();
-  //       // $('#photo').html(data.cart[0].photo);
-  //       // $('#price').html(data.cart[0].price); 
-  //       var pic_template = $('#pic_template').html();
-  //       var html = ejs.render(pic_template, { cart: data.cart });
-  //       $('#pic').html(html);
-  //     } else {
-  //       // doc.data() will be undefined in this case
-  //       console.log("No such document!");
-  //     }
-  //   }).catch(function (error) {
-  //     console.log("Error getting document:", error);
-  //   });
-  //   // $.getJSON('cart.json', function (data) {
-  //   //     console.log(data);
-  //   // })
-  // }
 
   function getproductData(name) {
     if (name == null) {
       db.collection("PRODUCTS").get()
         .then(function (querySnapshot) {
-          // doc.data() is never undefined for query doc snapshots
+          
           var product_template = $('#product_template').html();
           console.log(querySnapshot.docs);
           var html = ejs.render(product_template, { product: querySnapshot.docs });
@@ -409,7 +374,7 @@
             var html = "<font color='red'>??????????????????????</font>"
             db.collection("PRODUCTS").get()
               .then(function (querySnapshot) {
-                // doc.data() is never undefined for query doc snapshots
+                
                 var product_template = $('#product_template').html();
                 console.log(querySnapshot);
                 html += ejs.render(product_template, { product: querySnapshot.docs });
@@ -421,7 +386,7 @@
           } else {
             db.collection("PRODUCTS").where("category", "==", name).get()
               .then(function (querySnapshot) {
-                // doc.data() is never undefined for query doc snapshots
+                
                 console.log(querySnapshot.docs);
                 var product_template = $('#product_template').html();
                 var html = ejs.render(product_template, { product: querySnapshot.docs });
@@ -431,11 +396,7 @@
                 console.log("Error getting documents: ", error);
               });
           }
-          // doc.data() is never undefined for query doc snapshots
-          // var product_template = $('#product_template').html();
-          // console.log(querySnapshot.docs);
-          // var html = ejs.render(product_template, { product: querySnapshot.docs });
-          // $('#product').html(html);
+         
         })
     }
   }
@@ -444,16 +405,14 @@
     console.log(name)
     document.getElementById('tabbar').setActiveTab(2);
     localStorage.setItem('name', name);
-    // var name1 = localStorage.getItem('name');
-    //  getproductData(name1)
+   
   }
 
   function detail(pid) {
     localStorage.setItem('id', pid);
     myNavigator.pushPage('tab4.html')
     showdetail()
-    // var name1 = localStorage.getItem('name');
-    //  getproductData(name1)
+    
   }
 
   //Show Detail
@@ -462,7 +421,7 @@
     console.log('xxxxxxxxxxxxxxxxxxxxx', id)
     db.collection("PRODUCTS").where("pid", "==", id).get()
       .then(function (querySnapshot) {
-        // doc.data() is never undefined for query doc snapshots
+        
         console.log(querySnapshot.docs);
         var detail_template = $('#detail_template').html();
         var html = ejs.render(detail_template, { detail: querySnapshot.docs });
@@ -480,9 +439,9 @@
       let query = needle.toLowerCase();
       return heystack.filter(item => item.data().title.toLowerCase().indexOf(needle) >= 0);
     }
-    console.log("55+", filterItems(search, data));
+    console.log("soksak", filterItems(search, data));
     var item = filterItems(search, data);
-    console.log("xxx", item)
+    console.log("pao", item)
     localStorage.setItem('items', item);
 
 
@@ -510,18 +469,18 @@
 
 
   function test(title) {
-    console.log("888", title);
+    console.log("tong", title);
     // for(var i =0;i<tests.length;i++){
 
 
     console.log('tset', title);
 
-    // doc.data() is never undefined for query doc snapshots
+    
     if (title == 0) {
-      var html = "<font color='red'>??????????????????????</font>"
+      var html = "<font color='red'>No products found.</font>"
       db.collection("PRODUCTS").get()
         .then(function (querySnapshot) {
-          // doc.data() is never undefined for query doc snapshots
+          
           var product_template = $('#product_template').html();
           console.log(querySnapshot);
           html += ejs.render(product_template, { product: querySnapshot.docs });
@@ -537,19 +496,7 @@
       $('#product').html(html);
     }
 
-    // console.log(tests)
-    // db.collection("PRODUCTS").where("title", "==",tests).get()
-    //       .then(function (querySnapshot) {
-    //         // doc.data() is never undefined for query doc snapshots
-    //         console.log(querySnapshot.docs);
-    //         var test_template = $('#test_template').html();
-    //         var html = ejs.render(test_template, { test: querySnapshot.docs });
-    //         $('#test').html(html);
-    //       })
-    //       .catch(function (error) {
-    //         console.log("Error getting documents: ", error);
-    //       });
-    // }}
+  
   }
   //Add Products
   var dataCart = [];
@@ -561,7 +508,7 @@
     dataCart.push(retrievedData);
     alert(dataCart);
   }
-  //????????? array ??????????????? firebase ?????????????????? template
+  
   function getData2cart() {
     var Delete = []
     document.getElementById('photo').innerHTML = ""
