@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,7 @@
   <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
   <script src="ejs.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-firestore.js"></script>
   <script>
@@ -32,6 +33,7 @@
   </script>
   <title>Document</title>
 </head>
+
 <body>
   <ons-navigator swipeable id="myNavigator" page="tab3.html">
     <ons-page>
@@ -63,7 +65,7 @@
 
     </ons-page>
   </ons-navigator>
- <template id="tab1.html">
+  <template id="tab1.html">
     <ons-page id="Tab1">
       <p style="text-align: center; margin-top: 10px;">
         <ons-search-input placeholder="Search" onchange="search(this.value)"></ons-search-input>
@@ -94,7 +96,7 @@
           <%});%>
           </ons-row>
           </script>
- <style type="text/css">
+      <style type="text/css">
         .recomended_playlist {
           padding-left: 10px;
         }
@@ -198,13 +200,13 @@
       </style>
     </ons-page>
   </template>
- <template id="tab2.html">
+  <template id="tab2.html">
     <ons-page id="Tab2">
       <ons-list-header>SHOPPING CART</ons-list-header>
 
-      <div id="pic"></div>
+      <div id="photo"></div>
       <div id="showprice"></div>
-      <script id="pic_template" type="text/template"> 
+      <script id="photo_template" type="text/template"> 
                     <% 
                      cart.forEach(function(cart){
                      console.log(cart)
@@ -223,8 +225,8 @@
 </div>
             </ons-list-item><% });%> 
  </Script>
-<ons-button modifier="large">PROCEED TO PAY</ons-button>
-     </ons-page>
+      <ons-button modifier="large">PROCEED TO PAY</ons-button>
+    </ons-page>
   </template>
   <template id="tab3.html">
     <ons-page>
@@ -248,9 +250,9 @@
  </ons-row>
 </Script>
       </div>
- </ons-page>
+    </ons-page>
   </template>
- <template id="tab4.html">
+  <template id="tab4.html">
     <ons-page>
       <ons-toolbar>
         <div class="left">
@@ -484,7 +486,7 @@
   }
   const data = []
 
-  function tatol() {
+  function total() {
     console.log(search);
     db.collection("PRODUCTS").get()
       .then(function (querySnapshot) {
@@ -553,7 +555,7 @@
   //????????? array ??????????????? firebase ?????????????????? template
   function getData2cart() {
     var Delete = []
-    document.getElementById('pic').innerHTML = ""
+    document.getElementById('photo').innerHTML = ""
     console.log(dataCart);
     var j = 0
     dataCart.forEach(function (remove) {
@@ -566,10 +568,10 @@
       var apr = db.collection("PRODUCTS").where("pid", "==", dataCart);
       apr.get().then(function (querySnapshot) {
         console.log(querySnapshot.docs)
-        var pic_template = $('#pic_template').html();
+        var pic_template = $('#photo_template').html();
         var html = ejs.render(pic_template, { cart: querySnapshot.docs, num: testnum });
         console.log(html);
-        $('#pic').append(html);
+        $('#photo').append(html);
         testnum = testnum + 1;
       })
     })
