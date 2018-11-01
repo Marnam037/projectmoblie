@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,12 +9,11 @@
   <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
   <script src="ejs.js"></script>
-
-  <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-firestore.js"></script>
   <script>
-    // Initialize Firebase
+    // Link Firebase
     var config = {
       apiKey: "AIzaSyBkDTuc1BhgNmpjTSPMP4iMgHhbloupCSc",
       authDomain: "shopee-702b4.firebaseapp.com",
@@ -34,7 +32,6 @@
   </script>
   <title>Document</title>
 </head>
-
 <body>
   <ons-navigator swipeable id="myNavigator" page="tab3.html">
     <ons-page>
@@ -66,11 +63,7 @@
 
     </ons-page>
   </ons-navigator>
-
-
-
-  <!-- teb1 -->
-  <template id="tab1.html">
+ <template id="tab1.html">
     <ons-page id="Tab1">
       <p style="text-align: center; margin-top: 10px;">
         <ons-search-input placeholder="Search" onchange="search(this.value)"></ons-search-input>
@@ -101,11 +94,7 @@
           <%});%>
           </ons-row>
           </script>
-
-
-
-
-      <style type="text/css">
+ <style type="text/css">
         .recomended_playlist {
           padding-left: 10px;
         }
@@ -209,8 +198,7 @@
       </style>
     </ons-page>
   </template>
-  <!-- teb2 -->
-  <template id="tab2.html">
+ <template id="tab2.html">
     <ons-page id="Tab2">
       <ons-list-header>SHOPPING CART</ons-list-header>
 
@@ -231,21 +219,13 @@
                     <span class="list-item__subtitle" style="color: blue;"><%= cart.data().price %></span>
                 </div>
                 <div class="right">
-
-                    <ons-icon icon="md-delete" onclick="deleteb(<%=num%>); delprice('<%= cart.data().price %>')"></ons-icon></div>
-
-                  </div>
+ <ons-icon icon="md-delete" onclick="deleteb(<%=num%>); delprice('<%= cart.data().price %>')"></ons-icon></div>
+</div>
             </ons-list-item><% });%> 
-
-        </Script>
-
-
-      <ons-button modifier="large">PROCEED TO PAY</ons-button>
-
-    </ons-page>
+ </Script>
+<ons-button modifier="large">PROCEED TO PAY</ons-button>
+     </ons-page>
   </template>
-
-  <!-- teb3 -->
   <template id="tab3.html">
     <ons-page>
       <p style="text-align: center; margin-top: 10px;">
@@ -264,19 +244,13 @@
 <%= products.title %><br>
 ?<%= products.price %>
   </ons-card></ons-col>
-
 <%});%> 
  </ons-row>
- 
-
 </Script>
       </div>
-
-    </ons-page>
+ </ons-page>
   </template>
-
-
-  <template id="tab4.html">
+ <template id="tab4.html">
     <ons-page>
       <ons-toolbar>
         <div class="left">
@@ -290,14 +264,10 @@
           <ons-carousel swipeable auto-scroll overscrollable id="carousel" style="height: 300px;">
             <% detail.forEach(function(data){  
               var data = data.data() %>
-
-             
-                <ons-carousel-item id="carousel1DeP" style="background: url('<%= data.Photo %>') no-repeat center; background-size: contain;">  
+ <ons-carousel-item id="carousel1DeP" style="background: url('<%= data.Photo %>') no-repeat center; background-size: contain;">  
                 </ons-carousel-item>
-                                                   
-                <% })%>
-              
-         </ons-carousel>
+         <% })%>
+               </ons-carousel>
          <% detail.forEach(function(data){   
           var data = data.data(); %>
           <div class="title">
@@ -317,20 +287,11 @@
           <ons-button onclick="addtocart('<%= data.pid %>');totalprice('<%= data.price%>')">ADD TO CART</ons-button>
           <%})%>
         </ons-card>
-     
-    
-    </Script>
+      </Script>
     </ons-page>
   </template>
-
-
-
-
 </body>
-
 <script>
-
-
   //gethomedata  
   getHomeData();
   document.addEventListener('prechange', function (event) {
@@ -358,8 +319,6 @@
       localStorage.clear();
     }
   });
-
-
   function getHomeData() {
     $.getJSON('home.json', function (data) {
       var docRef = db.collection("UI").doc("home");
@@ -386,12 +345,8 @@
       }).catch(function (error) {
         console.log("Error getting document:", error);
       });
-
-
     })
   }
-
-
   // $.getJSON('home.json', function (data) {
   //     console.log(data);
   //    
@@ -490,6 +445,7 @@
     // var name1 = localStorage.getItem('name');
     //  getproductData(name1)
   }
+  //Show Detail
   function showdetail() {
     var id = localStorage.getItem('id');
     console.log('xxxxxxxxxxxxxxxxxxxxx', id)
@@ -596,7 +552,6 @@
   }
   //????????? array ??????????????? firebase ?????????????????? template
   function getData2cart() {
-
     var Delete = []
     document.getElementById('pic').innerHTML = ""
     console.log(dataCart);
@@ -614,8 +569,6 @@
         var pic_template = $('#pic_template').html();
         var html = ejs.render(pic_template, { cart: querySnapshot.docs, num: testnum });
         console.log(html);
-
-
         $('#pic').append(html);
         testnum = testnum + 1;
       })
@@ -641,7 +594,7 @@
 
     priceitem = priceitem + price1;
     $('#showprice').html("<p><b>&nbsp; Total Price is : </b>" + priceitem + " ?</p>");
- }
+  }
   function delprice(price2) {
     var price2 = parseInt(price2, 10)
     console.log(price2);
